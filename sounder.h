@@ -13,8 +13,8 @@ class Sounder {
 	public:
 		void sounder(int f);
 	private:
-		void int f;
-}
+		int f;
+};
 
 void Sounder::sounder(int f)
 {
@@ -27,4 +27,5 @@ void Sounder::sounder(int f)
 	}
 	else if (f = 0) {
 		mciSendString("close xxx", NULL, 0, NULL);	//若参数为 0，则关闭 xxx 。关闭后若想再次打开文件，请再次调用函数
+	}
 }
