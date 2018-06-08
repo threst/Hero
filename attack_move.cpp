@@ -8,7 +8,7 @@ using namespace std;
 
 IMAGE bg,Rhero[8],Rheroym[8],Lhero[8],Lheroym[8];
 IMAGE attack_1[8],attackym_1[8];//攻击1
-IMAGE attack_2[13],attack_2[13];//攻击2
+IMAGE attack_2[13],attackym_2[13];//攻击2
 
 
 void init()
@@ -17,8 +17,9 @@ void init()
 		initgraph(width,height);
 		char Rbuff[512],Rbuffym[512];//定义存右边移动的图片
 		char Lbuff[512],Lbuffym[512];//定义存左边移动的图片
+
 		char attack_1_buff[512],attack_1_buffym[512];//定义存attck1的图片名的数组
-		char attack_2_buff[512],attack_2_buffym[512];//定义存attack2的图片名的数组
+		char attack_2_buff[2048],attack_2_buffym[2048];//定义存attack2的图片名的数组
 		int i=0;
 
 		//加载背景
@@ -61,30 +62,30 @@ void init()
 		{
 			memset(attack_1_buff,0,512);
 			sprintf(attack_1_buff,_T("attack1\\IMG0000%d.bmp"),i);
-			loadimage(&attack[i],attack_1_buff,0,0,true);
+			loadimage(&attack_1[i],attack_1_buff,0,0,true);
 		}
 
 		//加载掩码图
 		for(i=0;i<=6;i++)
 		{
-			memset(attack_buffym,0,512);
-			sprintf(attack_buffym,_T("attack1\\IMG0000%d_ym.bmp"),i);
-			loadimage(&attackym[i],attack_buffym,0,0,true);
+			memset(attack_1_buffym,0,512);
+			sprintf(attack_1_buffym,_T("attack1\\IMG0000%d_ym.bmp"),i);
+			loadimage(&attackym_1[i],attack_1_buffym,0,0,true);
 		}
 		
 		/*************attack2***************/
 		for(i=0;i<=13;i++)
 		{
-			memset(attack1_buff,0,512);
-			sprintf(attack1_buff,_T("attack2\\IMG0000%d.bmp"),i);
-			loadimage(&attack[i],attack1_buff,0,0,true);
+			memset(attack_2_buff,0,2048);
+			sprintf(attack_2_buff,_T("attack2\\IMG0000%d.bmp"),i);
+			loadimage(&attack_2[i],attack_2_buff,0,0,true);
 		}
-		//加载掩码图
+		//加载attack2掩码图
 		for(i=0;i<=13;i++)
 		{
-			memset(attack_buffym,0,512);
-			sprintf(attack_buffym,_T("attack2\\IMG0000%d_ym.bmp"),i);
-			loadimage(&attackym[i],attack_buffym,0,0,true);
+			memset(attack_2_buffym,0,2048);
+			sprintf(attack_2_buffym,_T("attack2\\IMG0000%d_ym.bmp"),i);
+			loadimage(&attackym_2[i],attack_2_buffym,0,0,true);
 		}
 }
 
@@ -93,23 +94,7 @@ void init()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*****************展示************/
 
 
 void show()
@@ -129,7 +114,7 @@ void show()
 					putimage(0,0,&bg);
 					putimage(x,y,&Lheroym[count],SRCAND);
 					putimage(x,y,&Lhero[count],SRCPAINT);
-					x-=10;
+					if(x>=0) x-=10;
 					Sleep(10);
 					dire=0;//0为左移
 				}
@@ -140,7 +125,7 @@ void show()
 					putimage(0,0,&bg);
 					putimage(x,y,&Rheroym[count],SRCAND);
 					putimage(x,y,&Rhero[count],SRCPAINT);
-					x+=10;
+					if(x<=450) x+=10;
 					Sleep(10);
 					dire=1;//1为右移
 				}
@@ -159,7 +144,7 @@ void show()
 						putimage(x,y,&Rheroym[count],SRCAND);
 						putimage(x,y,&Rhero[count],SRCPAINT);
 					}
-					y-=10;
+					if(y>=30) y-=10;
 					Sleep(10);
 				}
 				break;
@@ -177,21 +162,30 @@ void show()
 						putimage(x,y,&Rheroym[count],SRCAND);
 						putimage(x,y,&Rhero[count],SRCPAINT);
 					}
-					y+=10;
+					if(y<=350)y+=10;
 					Sleep(10);
 				}
 				break;
 			case 'j'://攻击
-				for(count=0;count<=13;count++)
+				for(count=0;count<=6;count++)
 				{
 						putimage(0,0,&bg);
-						putimage(x,y,&attackym[count],SRCAND);
-						putimage(x,y,&attack[count],SRCPAINT);
-						x-=10;
+						putimage(x,y,&attackym_1[count],SRCAND);
+						putimage(x,y,&attack_1[count],SRCPAINT);
+					//	x-=10;
 						Sleep(10);
 				}
 				break;
-
+			case 'k'://攻击
+				for(count=0;count<=12;count++)
+				{
+						putimage(0,0,&bg);
+						putimage(x,y,&attackym_2[count],SRCAND);
+						putimage(x,y,&attack_2[count],SRCPAINT);
+						//x-=10;
+						Sleep(10);
+				}
+				break;
 			}
 		};
 }
